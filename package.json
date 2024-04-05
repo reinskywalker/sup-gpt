@@ -1,0 +1,17 @@
+{
+  "name": "sup-gpt",
+  "version": "1.0.0",
+  "description": "A conversational AI bot for WhatsApp using OpenAI's ChatGPT model!",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.mjs"
+  },
+  "keywords": [],
+  "author": "reinskywalker",
+  "license": "ISC",
+  "dependencies": {
+    "@open-wa/wa-automate": "^4.55.0",
+    "openai": "^3.1.0"
+  }
+}
