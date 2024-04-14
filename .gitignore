@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.env
+
+**.data.json
+**.node-persist**
+**_IGNORE_**
+tokens/
