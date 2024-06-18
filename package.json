@@ -1,17 +1,24 @@
 {
   "name": "sup-gpt",
+  "author": {
+    "name": "Reynaldi Lusikooy",
+    "url": "https://github.com/reinskywalker"
+  },
   "version": "1.0.0",
   "description": "A conversational AI bot for WhatsApp using OpenAI's ChatGPT model!",
   "main": "index.js",
-  "type": "module",
-  "scripts": {
-    "start": "node src/index.mjs"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/reinskywalker/sup-gpt.git"
   },
-  "keywords": [],
-  "author": "reinskywalker",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
   "license": "ISC",
   "dependencies": {
-    "@open-wa/wa-automate": "^4.55.0",
-    "openai": "^3.1.0"
+    "@whiskeysockets/baileys": "^6.6.0",
+    "pino": "^9.1.0",
+    "qrcode-terminal": "^0.12.0"
   }
 }
