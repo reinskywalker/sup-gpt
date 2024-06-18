@@ -1,6 +1,6 @@
 const Bot = require("./Bot");
 const MirrorPlugin = require("./libs/Mirror");
-const CheckEveryonePlugin = require("./libs/checkEveryone");
+const CheckEveryonePlugin = require("./libs/CheckEveryone");
 const { botConfig, pluginsConfig } = require("./config");
 
 const plugins = [
