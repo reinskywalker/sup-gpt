@@ -1,5 +1,6 @@
 const makeWASocket = require("@whiskeysockets/baileys").default;
-const {DisconnectReason,useMultiFileAuthState} = require("@whiskeysockets/baileys");
+const {DisconnectReason, useMultiFileAuthState} =
+    require("@whiskeysockets/baileys");
 const P = require("pino");
 
 class Bot {
@@ -21,43 +22,36 @@ class Bot {
   }
 
   async connect() {
-    const { state, saveCreds } = await useMultiFileAuthState(this.#authFolder);
+    const {state, saveCreds} = await useMultiFileAuthState(this.#authFolder);
 
     this.#saveCredentials = saveCreds;
 
     this.#socket = makeWASocket({
-      printQRInTerminal: true,
-      auth: state,
-      getMessage: this.#getMessageFromStore,
-      logger: P({ level: "error" }),
-      downloadHistory: false,
+      printQRInTerminal : true,
+      auth : state,
+      getMessage : this.#getMessageFromStore,
+      logger : P({level : "error"}),
+      downloadHistory : false,
     });
 
-    this.#plugins.forEach((plugin) =>
-      plugin.init(this.#socket, this.#getText, this.#sendMessage)
-    );
+    this.#plugins.forEach((plugin) => plugin.init(this.#socket, this.#getText,
+                                                  this.#sendMessage));
   }
 
   async run() {
     this.#socket.ev.process(async (events) => {
       if (events["connection.update"]) {
         const update = events["connection.update"];
-        const { connection, lastDisconnect } = update;
+        const {connection, lastDisconnect} = update;
 
         if (connection === "close") {
-          if (
-            lastDisconnect?.error?.output?.statusCode ===
-            DisconnectReason.loggedOut
-          ) {
+          if (lastDisconnect?.error?.output?.statusCode ===
+              DisconnectReason.loggedOut) {
             console.log("Connection closed. You are logged out.");
-          } else if (
-            lastDisconnect?.error?.output?.statusCode ===
-            DisconnectReason.timedOut
-          ) {
-            console.log(
-              new Date().toLocaleTimeString(),
-              "Timed out. Will retry in 1 minute."
-            );
+          } else if (lastDisconnect?.error?.output?.statusCode ===
+                     DisconnectReason.timedOut) {
+            console.log(new Date().toLocaleTimeString(),
+                        "Timed out. Will retry in 1 minute.");
             setTimeout(this.#restart.bind(this), 60 * 1000);
           } else {
             this.#restart();
@@ -70,12 +64,13 @@ class Bot {
       }
 
       if (events["messages.upsert"]) {
-        const { messages } = events["messages.upsert"];
+        const {messages} = events["messages.upsert"];
 
-        if (this.#logMessages) console.log("msg upsert", messages);
+        if (this.#logMessages)
+          console.log("msg upsert", messages);
 
         messages.forEach(async (msg) => {
-          const { key, message } = msg;
+          const {key, message} = msg;
 
           if (!message || this.#getText(key, message).includes(this.#emptyChar))
             return;
@@ -92,8 +87,9 @@ class Bot {
   }
 
   #getMessageFromStore = (key) => {
-    const { id } = key;
-    if (this.#messageStore[id]) return this.#messageStore[id].message;
+    const {id} = key;
+    if (this.#messageStore[id])
+      return this.#messageStore[id].message;
   };
 
   #getText(key, message) {
@@ -113,7 +109,8 @@ class Bot {
 
   #sendMessage = async (jid, content, ...args) => {
     try {
-      if (!this.#selfReply) content.text = content.text + this.#emptyChar;
+      if (!this.#selfReply)
+        content.text = content.text + this.#emptyChar;
 
       const sent = await this.#socket.sendMessage(jid, content, ...args);
       this.#messageStore[sent.key.id] = sent;
