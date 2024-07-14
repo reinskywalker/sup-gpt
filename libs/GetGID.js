@@ -15,29 +15,31 @@ class GetJid {
   }
 
   get dateStr() {
-    return new Intl
-        .DateTimeFormat('en-GB', {
-          timeZone : 'Asia/Bangkok',
-          day : '2-digit',
-          month : 'short',
-          year : 'numeric'
-        })
-        .format(new Date())
-        .replace(/ /g, ' ');
+    return new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Asia/Bangkok",
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    })
+      .format(new Date())
+      .replace(/ /g, " ");
   }
 
   async process(key, message) {
     const text = this.#getText(key, message);
-    const lid = await this.#socket.user.lid
+    const lid = await this.#socket.user.lid;
     const authState = await this.#socket.authState.creds.phoneId;
-    if (!text.toLowerCase().startsWith(this.#prefix))
-      return;
-    this.#sendMessage(key.remoteJid, {
-      /* get groupId for Yell constructor */
-      text : `streamMsgDate: [${this.dateStr}]\ngroupId: ${
-          lid}\nadvSecretKey: ${authState}`,
-    },
-                      {quoted : {key, message}});
+    if (!text.toLowerCase().startsWith(this.#prefix)) return;
+    this.#sendMessage(
+      key.remoteJid,
+      {
+        /* get groupId for Yell constructor */
+        text: `streamMsgDate: [${this.dateStr}]\ngroupId: ${
+          lid
+        }\nadvSecretKey: ${authState}`,
+      },
+      { quoted: { key, message } },
+    );
   }
 }
 

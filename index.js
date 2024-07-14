@@ -1,8 +1,8 @@
 const Bot = require("./Bot");
 const MirrorPlugin = require("./libs/Mirror");
 const CheckEveryonePlugin = require("./libs/CheckEveryone");
-const {botConfig, pluginsConfig} = require("./config");
-const Yell = require('./libs/Yell');
+const { botConfig, pluginsConfig } = require("./config");
+const Yell = require("./libs/Yell");
 const GetGID = require("./libs/GetGID");
 
 const plugins = [
