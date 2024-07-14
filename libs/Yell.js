@@ -1,4 +1,4 @@
-const cron = require('node-cron');
+const cron = require("node-cron");
 
 class Yell {
   #socket;
@@ -9,16 +9,18 @@ class Yell {
 
   constructor(config = {}) {
     this.#membersLimit = config.membersLimit || 100;
-    this.#prefix = config.prefix || '!yell! ';
+    this.#prefix = config.prefix || "!yell! ";
   }
 
   get dateStr() {
-    return new Intl.DateTimeFormat('en-GB', { 
-      timeZone: 'Asia/Bangkok', 
-      day: '2-digit', 
-      month: 'short', 
-      year: 'numeric' 
-    }).format(new Date()).replace(/ /g, ' ');
+    return new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Asia/Bangkok",
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    })
+      .format(new Date())
+      .replace(/ /g, " ");
   }
 
   init(socket, getText, sendMessage) {
@@ -36,7 +38,7 @@ class Yell {
       const grp = await this.#socket.groupMetadata(key.remoteJid);
       const members = grp.participants;
 
-      const sender = members.find(member => member.id === key.participant);
+      const sender = members.find((member) => member.id === key.participant);
 
       if (!sender || !sender.admin) {
         return;
@@ -53,9 +55,14 @@ class Yell {
       if (members.length < this.#membersLimit) {
         this.#sendMessage(
           key.remoteJid,
-           /* pre-formatted text on whatsapp */
-          { text: `_[${this.dateStr}] - Broadcasted Message_\n\n${text.slice(this.#prefix.length)}\n\n\n${items.join(", ")}`, mentions },
-          { quoted: { key, message } }
+          /* pre-formatted text on whatsapp */
+          {
+            text: `_[${this.dateStr}] - Broadcasted Message_\n\n${text.slice(
+              this.#prefix.length,
+            )}\n\n\n${items.join(", ")}`,
+            mentions,
+          },
+          { quoted: { key, message } },
         );
       }
     } catch (err) {
